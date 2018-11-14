@@ -1,10 +1,17 @@
-def sequence_blaster(fasta_path, results_path):
+from Bio.Blast import NCBIWWW
+from Bio import SeqIO
+import os
 
-    from Bio.Blast import NCBIWWW
-    from Bio import SeqIO
-    import os
-    
-    assert fasta_path is fast
+"""
+This module performs a blast search with a fasta file.
+
+fasta_path > filepath to the fasta file
+results_path > filepath to the .xml output file.
+
+"""
+def sequence_blaster(fasta_path, results_path):
+ 
+    assert os.path.exists(fasta_path), 'no such filepath exists'
     
     record = SeqIO.read(fasta_path, format="fasta")
     result_handle = NCBIWWW.qblast("blastn", "nt", record.format("fasta"))
@@ -13,7 +20,7 @@ def sequence_blaster(fasta_path, results_path):
     save_file.write(result_handle.read())
     save_file.close()
 
-    assert os.path.exists(results_path)
+    
     assert os.path.getsize(results_path) != 0
     #assert there is no memory leak
     
